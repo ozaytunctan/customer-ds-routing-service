@@ -1,0 +1,36 @@
+services:
+  postgres-master:
+    build: ./master
+    container_name: postgres-master
+    restart: always
+    environment:
+      POSTGRES_USER: master
+      POSTGRES_PASSWORD: master1234
+#      POSTGRES_DB: master_app_db
+    volumes:
+      - master_data:/var/lib/postgresql/data
+    networks:
+      - db_net
+    ports:
+      - "6000:5432"
+
+  postgres-replica:
+    build: ./replica
+    container_name: postgres-replica
+    restart: always
+    volumes:
+      - replica_data:/var/lib/postgresql/data
+    depends_on:
+      - postgres-master
+    networks:
+      - db_net
+    ports:
+      - "6001:5432"
+
+networks:
+  db_net:
+    driver: bridge
+
+volumes:
+  master_data:
+  replica_data:
