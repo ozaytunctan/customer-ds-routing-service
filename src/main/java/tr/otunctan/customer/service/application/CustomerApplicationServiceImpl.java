@@ -14,28 +14,5 @@ import tr.otunctan.customer.service.application.query.handler.CustomerEmailQuery
 @Service
 public class CustomerApplicationServiceImpl implements CustomerApplicationService {
 
-    private final CreateCustomerCommandHandler createCustomerCommandHandler;
-    private final CustomerEmailQueryHandler customerEmailQueryHandler;
 
-    public CustomerApplicationServiceImpl(CreateCustomerCommandHandler createCustomerCommandHandler, CustomerEmailQueryHandler customerEmailQueryHandler) {
-        this.createCustomerCommandHandler = createCustomerCommandHandler;
-        this.customerEmailQueryHandler = customerEmailQueryHandler;
-    }
-
-    @Transactional
-    @Override
-    public CustomerCreateResponse create(CreateCustomerCommand command) {
-        return createCustomerCommandHandler.handle(command);
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    public CustomerQueryResponse getByEmail(String email) {
-        System.out.println("TX ACTIVE INSIDE: " +
-                TransactionSynchronizationManager.isActualTransactionActive());
-
-        System.out.println("READONLY INSIDE: " +
-                TransactionSynchronizationManager.isCurrentTransactionReadOnly());
-        return customerEmailQueryHandler.handle(email);
-    }
 }

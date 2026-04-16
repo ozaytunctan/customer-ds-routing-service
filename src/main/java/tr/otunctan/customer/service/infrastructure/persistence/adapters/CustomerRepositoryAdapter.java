@@ -19,19 +19,6 @@ public class CustomerRepositoryAdapter implements CustomerRepositoryPort {
     }
 
     @Override
-    public Optional<Customer> findById(CustomerId customerId) {
-        return customerCommandJpaRepository
-                .findById(customerId.getValue())
-                .map(CustomerJpaEntity::toDomain);
-    }
-
-    @Override
-    public Optional<Customer> findByEmail(Email email) {
-        return customerCommandJpaRepository.findByEmail(email.getValue())
-                .map(CustomerJpaEntity::toDomain);
-    }
-
-    @Override
     public Customer save(Customer customer) {
         CustomerJpaEntity customerJpaEntity = CustomerJpaEntity.valueOf(customer);
         customerJpaEntity = customerCommandJpaRepository.save(customerJpaEntity);

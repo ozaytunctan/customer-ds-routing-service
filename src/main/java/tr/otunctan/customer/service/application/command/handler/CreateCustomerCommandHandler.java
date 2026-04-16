@@ -29,7 +29,6 @@ public class CreateCustomerCommandHandler {
 
         //burada publish edilebilir.
 //        List<DomainEvent> domainEvents = saveCustomer.pullEvents();
-
         return customerMapper.customerToCustomerCreateResponse(saveCustomer);
     }
 }
