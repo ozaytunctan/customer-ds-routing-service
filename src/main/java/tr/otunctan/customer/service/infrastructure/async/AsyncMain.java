@@ -1,6 +1,8 @@
 package tr.otunctan.customer.service.infrastructure.async;
 
+import java.net.ConnectException;
 import java.net.SocketTimeoutException;
+import java.sql.SQLTransientException;
 import java.time.Duration;
 import java.util.List;
 import java.util.concurrent.*;
@@ -45,7 +47,10 @@ public class AsyncMain {
                         .timeout(Duration.ofSeconds(3))
                         .retry(0)
                         .retryDelay(Duration.ofMillis(2000))
-                        .retryPredicate((t) -> t instanceof SocketTimeoutException)
+                        .retryPredicate(ex ->
+                                        ex instanceof SocketTimeoutException ||
+                                        ex instanceof SQLTransientException ||
+                                        ex instanceof ConnectException)
         );
         List<String> join = results.join();
         System.out.println();
